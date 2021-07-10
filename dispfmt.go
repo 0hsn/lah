@@ -4,7 +4,6 @@ import (
 	"fmt"
 	"io/fs"
 	"io/ioutil"
-	"os"
 	"os/user"
 	"strings"
 	"syscall"
@@ -37,9 +36,6 @@ func process(files []fs.FileInfo) *[]fileDisplayInfo {
 
 		fdis = append(fdis, *fdi)
 	}
-
-	fmt.Println(fdis)
-	os.Exit(0)
 
 	return &fdis
 }
