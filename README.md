@@ -3,7 +3,7 @@ command line application that can be used alternative to `ls -lah`
 
 ### Purpose
 
-We already have `ls` which is builtin command for almost all *nix I used. This standard tools is also used for many automation. The purpose of this project is not to replace the tool. This tool exist to complement `ls -lah` use case. I expect this command line tools will help linux noobs to understand and grasp different columns and their values used in `ls -lah`.
+We already have `ls` which is builtin command for almost all *nix I used. `ls` is used in many automation. The purpose of `lah` project is not to replace `ls` tool. This tool exist to complement `ls -lah` use case. I expect this command line tools will help linux noobs to understand and grasp different columns and their values used in `ls -lah`.
 
 ### Preview
 
@@ -25,7 +25,4 @@ FIL 0644  0 786 B hasanlock:staff lah.go
 DIR 0644  0   0 B hasanlock:staff sample_pipe
 DIR 0755  1  96 B hasanlock:staff some
 
-```
-@todo
-install?
-```
+`@todo install?`
