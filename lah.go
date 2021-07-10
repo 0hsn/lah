@@ -6,13 +6,13 @@ import (
 )
 
 // Get current directory
-func getDirectoryPath() (string, error) {
+func directory() (string, error) {
 	currDir := "./"
 	return currDir, nil
 }
 
 // Get list of directory files
-func getListOfDirFile(dir string) []fs.FileInfo {
+func fileList(dir string) []fs.FileInfo {
 	files, err := ioutil.ReadDir(dir)
 
 	if err != nil {
@@ -24,13 +24,14 @@ func getListOfDirFile(dir string) []fs.FileInfo {
 
 func main() {
 	// @todo handle error in future when there is error
-	dir, _ := getDirectoryPath()
+	dir, _ := directory()
 
 	// List the file
-	files := getListOfDirFile(dir)
+	files := fileList(dir)
 
 	// Process the output
-	processOutput(files)
+	// fdis :=
+	process(files)
 
 	// Display it
 	// output()

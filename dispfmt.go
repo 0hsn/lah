@@ -21,7 +21,7 @@ type fileDisplayInfo struct {
 	fcount string // file count in dir
 }
 
-func processOutput(files []fs.FileInfo) *[]fileDisplayInfo {
+func process(files []fs.FileInfo) *[]fileDisplayInfo {
 	var fdis []fileDisplayInfo
 
 	for _, file := range files {
