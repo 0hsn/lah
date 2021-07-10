@@ -3,6 +3,7 @@ package main
 import (
 	"fmt"
 	"io/fs"
+	"io/ioutil"
 	"os"
 	"os/user"
 	"syscall"
@@ -14,9 +15,9 @@ type fileDisplayInfo struct {
 	perm   string // perm
 	user   string // owner
 	group  string // owner group
-	fsize  int    // file size
+	fsize  string // file size
 	fsunit string // file size unit
-	fcount int    // file count in dir
+	fcount string // file count in dir
 }
 
 func processOutput(files []fs.FileInfo) *[]fileDisplayInfo {
@@ -29,6 +30,8 @@ func processOutput(files []fs.FileInfo) *[]fileDisplayInfo {
 		loadPerm(file, fdi)
 		loadUser(file, fdi)
 		loadGroup(file, fdi)
+		loadSize(file, fdi)
+		loadFileCount(file, fdi)
 
 		fdis = append(fdis, *fdi)
 	}
@@ -67,4 +70,40 @@ func loadGroup(file fs.FileInfo, fdi *fileDisplayInfo) {
 	grp, _ := user.LookupGroupId(fmt.Sprint(gid))
 
 	fdi.group = grp.Name
+}
+
+// load file size and unit
+func loadSize(file fs.FileInfo, fdi *fileDisplayInfo) {
+	fsize := file.Sys().(*syscall.Stat_t).Size
+	fsizef32 := float32(fsize)
+
+	sz := [4]string{"B", "KB", "MB", "GB"}
+
+	var i int
+	for i = 0; i <= len(sz); i++ {
+		if fsizef32 > 1000 {
+			fsizef32 /= 1000
+			continue
+		}
+		break
+	}
+
+	if fsizef32 == float32(int32(fsizef32)) {
+		fdi.fsize = fmt.Sprint(int32(fsizef32))
+	} else {
+		fdi.fsize = fmt.Sprintf("%.1f", fsizef32)
+	}
+
+	fdi.fsunit = sz[i]
+}
+
+// load file count if dir
+func loadFileCount(file fs.FileInfo, fdi *fileDisplayInfo) {
+	if !file.IsDir() {
+		fdi.fcount = "0"
+		return
+	}
+
+	files, _ := ioutil.ReadDir(file.Name())
+	fdi.fcount = fmt.Sprint(len(files))
 }
