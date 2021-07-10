@@ -6,6 +6,7 @@ import (
 	"io/ioutil"
 	"os"
 	"os/user"
+	"strings"
 	"syscall"
 )
 
@@ -26,6 +27,7 @@ func processOutput(files []fs.FileInfo) *[]fileDisplayInfo {
 	for _, file := range files {
 		fdi := new(fileDisplayInfo)
 
+		leadType(file, fdi)
 		loadName(file, fdi)
 		loadPerm(file, fdi)
 		loadUser(file, fdi)
@@ -45,6 +47,25 @@ func processOutput(files []fs.FileInfo) *[]fileDisplayInfo {
 /*
  * formatter utility
  */
+// load file type
+func leadType(file fs.FileInfo, fdi *fileDisplayInfo) {
+	modestr := file.Mode().String()
+
+	switch {
+	case strings.HasPrefix(modestr, "d"):
+		fdi.ftype = "DIR"
+	case strings.HasPrefix(modestr, "S"):
+		fdi.ftype = "SOC"
+	case strings.HasPrefix(modestr, "L"):
+		fdi.ftype = "LNK"
+	case strings.HasPrefix(modestr, "D"):
+		fdi.ftype = "DEV"
+	case strings.HasPrefix(modestr, "p"):
+		fdi.ftype = "DIR"
+	default:
+		fdi.ftype = "FIL"
+	}
+}
 
 // load file name
 func loadName(file fs.FileInfo, fdi *fileDisplayInfo) {
