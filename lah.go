@@ -4,12 +4,38 @@ import (
 	"fmt"
 	"io/fs"
 	"io/ioutil"
+	"os"
+)
+
+const (
+	havingPathNo = 1
+	havingPath   = 2
 )
 
 // Get current directory
-func directory() (string, error) {
-	currDir := "./"
-	return currDir, nil
+func directory() string {
+	var curDir string
+	count := len(os.Args)
+
+	switch {
+	case count == havingPath:
+		curDir = os.Args[1]
+	case count == havingPathNo:
+		curDir = "./"
+	default:
+		displayUsage()
+		os.Exit(0)
+	}
+	return curDir
+}
+
+func displayUsage() {
+	usage := `Usage: lah [FILE]
+
+List information about the FILEs (the current directory by default).
+
+[FILE] Directory you want to list files for`
+	fmt.Println(usage)
 }
 
 // Get list of directory files
@@ -32,8 +58,8 @@ func display(fdis []fileDisplayInfo) {
 }
 
 func main() {
-	// @todo handle error in future when there is error
-	dir, _ := directory()
+	// get the directory
+	dir := directory()
 
 	// List the file
 	files := fileList(dir)
