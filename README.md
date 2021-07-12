@@ -5,6 +5,16 @@ command line application that can be used alternative to `ls -lah`
 
 We already have `ls` which is builtin command for almost all *nix I used. `ls` is used in many automation. The purpose of `lah` project is not to replace `ls` tool. This tool exist to complement `ls -lah` use case. I expect this command line tools will help linux noobs to understand and grasp different columns and their values used in `ls -lah`.
 
+### Usage
+
+```
+Usage: lah [FILE]
+
+List information about the FILEs (the current directory by default).
+
+[FILE] Directory you want to list files for
+```
+
 ### Preview
 
 This is how the response looks like.
@@ -24,5 +34,11 @@ FIL 0755  0 2.2MB hasanlock:staff lah
 FIL 0644  0 786 B hasanlock:staff lah.go
 DIR 0644  0   0 B hasanlock:staff sample_pipe
 DIR 0755  1  96 B hasanlock:staff some
+```
 
-`@todo install?`
+### Upcoming [WIP]
+```
+@todo provide install guide
+@todo if user pass a file, not dir
+@todo if user want to list multiple dir
+```
